@@ -16,7 +16,8 @@ public class StoreItem {
     private Long inum;
 
     private String uuid;
-    private String itemName;
+    private String imgName;
+    private String path;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Store store;
