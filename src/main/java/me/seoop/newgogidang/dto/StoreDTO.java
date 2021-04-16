@@ -17,11 +17,17 @@ public class StoreDTO {
 
     private Long sno;
     private String title;
+    private String address;
+    private String phone;
+
     private double avg;
     private int reviewCnt;
     private LocalDateTime regDate;
     private LocalDateTime modDate;
 
     @Builder.Default
-    private List<StoreItemDTO> itemDTOList = new ArrayList<>();
+    private List<StoreImgDTO> imgDTOList = new ArrayList<>();
+
+//    @Builder.Default
+//    private List<StoreItemDTO> itemDTOList = new ArrayList<>();
 }

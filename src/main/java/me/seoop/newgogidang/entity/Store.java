@@ -2,10 +2,7 @@ package me.seoop.newgogidang.entity;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Builder
@@ -19,4 +16,20 @@ public class Store extends BaseEntity {
     private Long sno;
 
     private String title;
+    private String address;
+    private String phone;
+
+    public void changeTitle(String title) {
+        this.title = title;
+    }
+
+    public void changeAddress(String address) {
+        this.address = address;
+    }
+
+    public void changePhone(String phone) {
+        this.phone = phone;
+    }
+
+
 }

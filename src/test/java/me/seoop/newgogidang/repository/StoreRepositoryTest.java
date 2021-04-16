@@ -42,7 +42,7 @@ class StoreRepositoryTest {
                 StoreItem storeItem = StoreItem.builder()
                         .uuid(UUID.randomUUID().toString())
                         .store(store)
-                        .itemName("test" + j + ".jpg")
+                        .imgName("test" + j + ".jpg")
                         .build();
 
                 storeItemRepository.save(storeItem);

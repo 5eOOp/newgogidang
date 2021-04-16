@@ -35,7 +35,7 @@ public class ReviewController {
         return new ResponseEntity<>(reviewnum, HttpStatus.OK);
     }
 
-    @PutMapping("/{mno}/{reviewnum}")
+    @PutMapping("/{sno}/{reviewnum}")
     public ResponseEntity<Long> modifyReview(@PathVariable Long reviewnum,
                                              @RequestBody ReviewDTO reviewDTO) {
         log.info("-----modify review-----");

@@ -6,12 +6,11 @@ import me.seoop.newgogidang.dto.PageRequestDTO;
 import me.seoop.newgogidang.dto.PageResultDTO;
 import me.seoop.newgogidang.dto.StoreDTO;
 import me.seoop.newgogidang.service.StoreService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -57,5 +56,14 @@ public class StoreController {
         StoreDTO storeDTO = storeService.getStore(sno);
         model.addAttribute("dto", storeDTO);
         return "store/modify";
+    }
+
+    @PutMapping("/modify/{sno}")
+    public ResponseEntity<Long> modifyPut(@PathVariable Long sno,
+                                          @RequestBody StoreDTO storeDTO) {
+        log.info("-----modify store-----");
+        log.info("storeDTO: " + storeDTO);
+        storeService.modify(storeDTO);
+        return new ResponseEntity<>(sno, HttpStatus.OK);
     }
 }

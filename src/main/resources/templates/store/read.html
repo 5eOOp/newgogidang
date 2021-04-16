@@ -5,7 +5,10 @@
 
   <th:block th:fragment="content">
 
-    <h1 class="mt-4">가게 상세 페이지</h1>
+    <h1 class="mt-4">가게 상세 페이지
+      <button type="button" class="btn btn-info modifyStoreBtn"> 가게 수정 </button>
+      <button type="button" class="btn btn-info addItemBtn"> 메뉴 등록/수정 </button>
+    </h1>
 
     <div class="form-group">
       <label >가게 이름</label>
@@ -13,13 +16,23 @@
     </div>
 
     <div class="form-group">
+      <label >가게 주소</label>
+      <input type="text" class="form-control" name="address" th:value="${dto.address}" readonly>
+    </div>
+
+    <div class="form-group">
+      <label >가게 번호</label>
+      <input type="text" class="form-control" name="phone" th:value="${dto.phone}" readonly>
+    </div>
+
+    <div class="form-group">
       <label >리뷰 갯수</label>
-      <input type="text" class="form-control" name="title" th:value="${dto.reviewCnt}" readonly>
+      <input type="text" class="form-control" name="reviewCnt" th:value="${dto.reviewCnt}" readonly>
     </div>
 
     <div class="form-group">
       <label >평점</label>
-      <input type="text" class="form-control" name="title" th:value="${dto.avg}" readonly>
+      <input type="text" class="form-control" name="avg" th:value="${dto.avg}" readonly>
     </div>
 
     <style>
@@ -49,17 +62,13 @@
       }
     </style>
 
-
-
     <div class="uploadResult">
       <ul >
-        <li th:each="storeItem: ${dto.itemDTOList}" th:data-file="${storeItem.getThumbnailURL()}">
-          <img  th:if="${storeItem.path != null}" th:src="|/display?fileName=${storeItem.getThumbnailURL()}|">
+        <li th:each="storeImg: ${dto.imgDTOList}" th:data-file="${storeImg.getThumbnailURL()}">
+          <img  th:if="${storeImg.path != null}" th:src="|/display?fileName=${storeImg.getThumbnailURL()}|">
         </li>
       </ul>
     </div>
-
-
 
     <button type="button" class="btn btn-primary">
       리뷰 갯수 <span class="badge badge-light">[[${dto.reviewCnt}]]</span>
@@ -73,10 +82,11 @@
 
     </div>
 
-
+    <!-- 리뷰 등록/수정 모달 -->
     <div class="reviewModal modal" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
+
           <div class="modal-header">
             <h5 class="modal-title">가게 리뷰</h5>
 
@@ -84,20 +94,102 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
+
           <div class="modal-body">
             <div class="form-group">
               <label >고객 ID</label>
-              <input type="text" class="form-control" name="mid" readonly>
+              <input type="text" class="form-control" name="mid">
             </div>
+
             <div class="form-group">
               <label >별점 <span class="grade"></span></label>
               <div class='starrr'></div>
             </div>
+
             <div class="form-group">
               <label >리뷰 내용</label>
               <input type="text" class="form-control" name="text" placeholder="맛있습니다!" >
             </div>
           </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+            <button type="button" class="btn btn-primary reviewSaveBtn">저장 </button>
+            <button type="button" class="btn btn-warning modifyBtn">수정 </button>
+            <button type="button" class="btn btn-danger removeBtn">제거 </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 가게 수정 모달 -->
+    <div class="modifyStoreModal modal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <h5 class="modal-title">가게 수정</h5>
+
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <div class="form-group">
+              <label >가게 이름</label>
+              <input type="text" class="form-control" name="editTitle" th:value="${dto.title}">
+            </div>
+
+            <div class="form-group">
+              <label >가게 주소</label>
+              <input type="text" class="form-control" name="editAddress" th:value="${dto.address}">
+            </div>
+
+            <div class="form-group">
+              <label >가게 번호</label>
+              <input type="text" class="form-control" name="editPhone" th:value="${dto.phone}">
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+            <button type="button" class="btn btn-warning putModifyStoreBtn">수정 </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 메뉴 추가/수정 모달 -->
+    <div class="reviewModal modal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <h5 class="modal-title">가게 리뷰</h5>
+
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <div class="form-group">
+              <label >고객 ID</label>
+              <input type="text" class="form-control" name="mid">
+            </div>
+
+            <div class="form-group">
+              <label >별점 <span class="grade"></span></label>
+              <div class='starrr'></div>
+            </div>
+
+            <div class="form-group">
+              <label >리뷰 내용</label>
+              <input type="text" class="form-control" name="text" placeholder="맛있습니다!" >
+            </div>
+          </div>
+
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
             <button type="button" class="btn btn-primary reviewSaveBtn">저장 </button>
@@ -154,6 +246,7 @@
         var inputMid = $('input[name="mid"]');
         var inputText = $('input[name="text"]');
 
+        // 리뷰 등록 모달
         $(".addReviewBtn").click(function () {
           inputMid.val("");
           inputText.val("");
@@ -264,6 +357,35 @@
           console.log(file);
           $('.imageModal .modal-body').html("<img style='width:100%' src='/display?fileName="+file+"&size=1' >")
           $(".imageModal").modal("show");
+        });
+
+        // 가게 수정 modal part
+        var modifyStoreModal = $(".modifyStoreModal");
+        var title = $('input[name="editTitle"]');
+        var address = $('input[name="editAddress"]');
+        var phone = $('input[name="editPhone"]');
+
+        $(".modifyStoreBtn").click(function () {
+          modifyStoreModal.modal('show');
+        });
+
+        $(".putModifyStoreBtn").on("click", function(){
+          var data = {sno:sno, title: title.val(), address: address.val(), phone: phone.val()};
+          console.log(data);
+
+          $.ajax({
+            url:'/reviews/'+ sno +"/"+ reviewnum ,
+            url:'/store/modify/+ sno',
+            type:"PUT",
+            data:JSON.stringify(data),
+            contentType:"application/json; charset=utf-8",
+            dataType:"text",
+            success: function(result){
+              console.log("result: " + result);
+              self.location.reload();
+            }
+          })
+          reviewModal.modal('hide');
         });
       });
     </script>
