@@ -374,9 +374,8 @@
           console.log(data);
 
           $.ajax({
-            url:'/reviews/'+ sno +"/"+ reviewnum ,
-            url:'/store/modify/+ sno',
-            type:"PUT",
+            url:'/store/modify/' + sno,
+            type:"POST",
             data:JSON.stringify(data),
             contentType:"application/json; charset=utf-8",
             dataType:"text",

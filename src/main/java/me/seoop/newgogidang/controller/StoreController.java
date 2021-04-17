@@ -58,12 +58,11 @@ public class StoreController {
         return "store/modify";
     }
 
-    @PutMapping("/modify/{sno}")
-    public ResponseEntity<Long> modifyPut(@PathVariable Long sno,
-                                          @RequestBody StoreDTO storeDTO) {
+    @PostMapping("/modify/{sno}")
+    public ResponseEntity<Long> modifyPut(@RequestBody StoreDTO storeDTO) {
         log.info("-----modify store-----");
         log.info("storeDTO: " + storeDTO);
         storeService.modify(storeDTO);
-        return new ResponseEntity<>(sno, HttpStatus.OK);
+        return new ResponseEntity<>(storeDTO.getSno(), HttpStatus.OK);
     }
 }

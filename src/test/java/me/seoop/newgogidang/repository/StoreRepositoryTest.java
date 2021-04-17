@@ -1,6 +1,7 @@
 package me.seoop.newgogidang.repository;
 
 import me.seoop.newgogidang.entity.Store;
+import me.seoop.newgogidang.entity.StoreImg;
 import me.seoop.newgogidang.entity.StoreItem;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ class StoreRepositoryTest {
     private StoreRepository storeRepository;
 
     @Autowired
+    private StoreImgRepository storeImgRepository;
+
+    @Autowired
     private StoreItemRepository storeItemRepository;
 
     @Commit
@@ -33,11 +37,23 @@ class StoreRepositoryTest {
     @Test
     public void insertStore() throws Exception {
         IntStream.rangeClosed(1, 100).forEach(i -> {
-            Store store = Store.builder().title("Store..." + i).build();
+            Store store = Store.builder()
+                    .title("Store..." + i)
+                    .address("Address..." + i)
+                    .phone("Phone..." + i)
+                    .build();
             System.out.println("--------------------");
             storeRepository.save(store);
-            int count = (int)(Math.random() * 5) + 1;
 
+            StoreImg storeImg = StoreImg.builder()
+                    .uuid(UUID.randomUUID().toString())
+                    .imgName("test" + i + ".jpg")
+                    .store(store)
+                    .build();
+
+            storeImgRepository.save(storeImg);
+
+            int count = (int)(Math.random() * 5) + 1;
             for (int j = 0; j < count; j++) {
                 StoreItem storeItem = StoreItem.builder()
                         .uuid(UUID.randomUUID().toString())
