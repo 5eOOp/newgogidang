@@ -14,9 +14,15 @@ import java.net.URLEncoder;
 @NoArgsConstructor
 public class StoreItemDTO {
 
+    private Long sno;
+
     private String uuid;
     private String imgName;
     private String path;
+
+    private String itemName;
+    private String itemPrice;
+    private String itemGrade;
 
     public String getImageURL() {
         try {

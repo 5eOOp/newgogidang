@@ -28,6 +28,4 @@ public class StoreDTO {
     @Builder.Default
     private List<StoreImgDTO> imgDTOList = new ArrayList<>();
 
-//    @Builder.Default
-//    private List<StoreItemDTO> itemDTOList = new ArrayList<>();
 }
