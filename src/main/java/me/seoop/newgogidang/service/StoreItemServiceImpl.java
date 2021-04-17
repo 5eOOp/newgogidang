@@ -15,7 +15,6 @@ import java.util.Optional;
 public class StoreItemServiceImpl implements StoreItemService{
 
     private final StoreItemRepository storeItemRepository;
-
     private final StoreRepository storeRepository;
 
     @Override
@@ -40,5 +39,11 @@ public class StoreItemServiceImpl implements StoreItemService{
         storeItemRepository.save(storeItem);
 
         return storeItemDTO.getSno();
+    }
+
+    @Override
+    public int count(Long sno) {
+        int count = storeItemRepository.countBySno(sno);
+        return count;
     }
 }

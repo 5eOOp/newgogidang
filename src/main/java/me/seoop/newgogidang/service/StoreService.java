@@ -1,5 +1,6 @@
 package me.seoop.newgogidang.service;
 
+import lombok.extern.slf4j.Slf4j;
 import me.seoop.newgogidang.dto.*;
 import me.seoop.newgogidang.entity.Store;
 import me.seoop.newgogidang.entity.StoreImg;
@@ -17,9 +18,10 @@ public interface StoreService {
     Long register(StoreDTO storeDTO);
     PageResultDTO<StoreDTO, Object[]> getList(PageRequestDTO requestDTO);
     StoreDTO getStore(Long sno);
+    StoreDTO getStoreFirst(Long sno);
     void modify(StoreDTO storeDTO);
 
-    default StoreDTO entitiesToDTO(Store store, List<StoreImg> storeImages, Double avg, Long reviewCnt) {
+    default StoreDTO entitiesToDTOStore(Store store, List<StoreImg> storeImages, Double avg, Long reviewCnt, List<StoreItem> storeItems) {
         StoreDTO storeDTO = StoreDTO.builder()
                 .sno(store.getSno())
                 .title(store.getTitle())
@@ -36,6 +38,44 @@ public interface StoreService {
                     .uuid(storeImg.getUuid())
                     .build();
         }).collect(Collectors.toList());
+
+        List<StoreItemDTO> storeItemDTOList = storeItems.stream().map(storeItem -> {
+            return StoreItemDTO.builder()
+                    .imgName(storeItem.getImgName())
+                    .path(storeItem.getPath())
+                    .uuid(storeItem.getUuid())
+                    .itemName(storeItem.getItemName())
+                    .itemPrice(storeItem.getItemPrice())
+                    .itemGrade(storeItem.getItemGrade())
+                    .build();
+        }).collect(Collectors.toList());
+
+        storeDTO.setImgDTOList(storeImgDTOList);
+        storeDTO.setItemDTOList(storeItemDTOList);
+        storeDTO.setAvg(avg);
+        storeDTO.setReviewCnt(reviewCnt.intValue());
+
+        return storeDTO;
+    }
+
+    default StoreDTO entitiesToDTOList(Store store, List<StoreImg> storeImages, Double avg, Long reviewCnt) {
+        StoreDTO storeDTO = StoreDTO.builder()
+                .sno(store.getSno())
+                .title(store.getTitle())
+                .address(store.getAddress())
+                .phone(store.getPhone())
+                .regDate(store.getRegDate())
+                .modDate(store.getModDate())
+                .build();
+
+        List<StoreImgDTO> storeImgDTOList = storeImages.stream().map(storeImg -> {
+            return StoreImgDTO.builder()
+                    .imgName(storeImg.getImgName())
+                    .path(storeImg.getPath())
+                    .uuid(storeImg.getUuid())
+                    .build();
+        }).collect(Collectors.toList());
+
         storeDTO.setImgDTOList(storeImgDTOList);
         storeDTO.setAvg(avg);
         storeDTO.setReviewCnt(reviewCnt.intValue());

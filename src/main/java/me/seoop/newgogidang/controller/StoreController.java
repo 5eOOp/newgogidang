@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import me.seoop.newgogidang.dto.PageRequestDTO;
 import me.seoop.newgogidang.dto.PageResultDTO;
 import me.seoop.newgogidang.dto.StoreDTO;
+import me.seoop.newgogidang.service.StoreItemService;
 import me.seoop.newgogidang.service.StoreService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class StoreController {
 
     private final StoreService storeService;
+    private final StoreItemService storeItemService;
 
     @GetMapping("/register")
     public String register() {
@@ -45,9 +47,17 @@ public class StoreController {
     @GetMapping("/read")
     public String read(long sno, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, Model model) {
         log.info("sno: " + sno);
-        StoreDTO storeDTO = storeService.getStore(sno);
-        model.addAttribute("dto", storeDTO);
-        return "store/read";
+        int count = storeItemService.count(sno);
+        log.info("count: " + count);
+        if (count != 0) {
+            StoreDTO storeDTO = storeService.getStore(sno);
+            model.addAttribute("dto", storeDTO);
+            return "store/read";
+        } else {
+            StoreDTO storeDTO = storeService.getStoreFirst(sno);
+            model.addAttribute("dto", storeDTO);
+            return "store/read";
+        }
     }
 
     @GetMapping("/modify")

@@ -52,7 +52,7 @@ public class StoreServiceImpl implements StoreService {
     public PageResultDTO<StoreDTO, Object[]> getList(PageRequestDTO requestDTO) {
         Pageable pageable = requestDTO.getPageable(Sort.by("sno").descending());
         Page<Object[]> result = storeRepository.getListPage(pageable);
-        Function<Object[], StoreDTO> fn = (arr -> entitiesToDTO(
+        Function<Object[], StoreDTO> fn = (arr -> entitiesToDTOList(
                 (Store) arr[0],
                 (List<StoreImg>) (Arrays.asList((StoreImg) arr[1])),
                 (Double) arr[2],
@@ -64,6 +64,7 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public StoreDTO getStore(Long sno) {
         List<Object[]> result = storeRepository.getStoreWithAll(sno);
+        log.info("length: " + result.get(0).length);
         Store store = (Store) result.get(0)[0];
 
         List<StoreImg> storeImgList = new ArrayList<>();
@@ -74,7 +75,31 @@ public class StoreServiceImpl implements StoreService {
         Double avg = (Double) result.get(0)[2];
         Long reviewCnt = (Long) result.get(0)[3];
 
-        return entitiesToDTO(store, storeImgList, avg, reviewCnt);
+        List<StoreItem> storeItemList = new ArrayList<>();
+        result.forEach(arr -> {
+            StoreItem storeItem = (StoreItem) arr[4];
+            storeItemList.add(storeItem);
+        });
+        log.info("storeItemList size: " + storeItemList.size());
+
+        return entitiesToDTOStore(store, storeImgList, avg, reviewCnt, storeItemList);
+    }
+
+    @Override
+    public StoreDTO getStoreFirst(Long sno) {
+        List<Object[]> result = storeRepository.getStoreWithAll(sno);
+        log.info("length: " + result.get(0).length);
+        Store store = (Store) result.get(0)[0];
+
+        List<StoreImg> storeImgList = new ArrayList<>();
+        result.forEach(arr -> {
+            StoreImg storeImg = (StoreImg) arr[1];
+            storeImgList.add(storeImg);
+        });
+        Double avg = (Double) result.get(0)[2];
+        Long reviewCnt = (Long) result.get(0)[3];
+
+        return entitiesToDTOList(store, storeImgList, avg, reviewCnt);
     }
 
     @Override

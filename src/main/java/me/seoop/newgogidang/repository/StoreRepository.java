@@ -17,9 +17,10 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
             "left outer join Review r on r.store = s group by s, si.imgnum")
     Page<Object[]> getListPage(Pageable pageable);
 
-    @Query("select s, si, avg(coalesce(r.grade, 0)), count(r) " +
+    @Query("select s, si, avg(coalesce(r.grade, 0)), count(r), it " +
             "from Store s left outer join StoreImg si on si.store = s " +
             "left outer join Review r on r.store = s " +
-            "where s.sno = :sno group by si.imgnum")
+            "left outer join StoreItem it on it.store = s " +
+            "where s.sno = :sno group by si.imgnum, it.inum")
     List<Object[]> getStoreWithAll(@Param("sno") Long sno);
 }
