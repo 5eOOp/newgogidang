@@ -50,7 +50,6 @@ class StoreRepositoryTest {
                     .imgName("test" + i + ".jpg")
                     .store(store)
                     .build();
-
             storeImgRepository.save(storeImg);
 
             int count = (int)(Math.random() * 5) + 1;
@@ -59,6 +58,9 @@ class StoreRepositoryTest {
                         .uuid(UUID.randomUUID().toString())
                         .store(store)
                         .imgName("test" + j + ".jpg")
+                        .itemName("test..." + i + "item")
+                        .itemGrade(i + "등급")
+                        .itemPrice(i + "000원")
                         .build();
 
                 storeItemRepository.save(storeItem);
