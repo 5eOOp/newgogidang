@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    include: oauth
   datasource:
     url: jdbc:h2:tcp://localhost/~/gogidangv2
     username: sa
@@ -19,5 +21,7 @@ spring:
       max-file-size: 10MB
 
 logging.level:
+  org.springframework.security.web: debug
+  org.seoop.security: debug
   org.hibernate.SQL: debug
 #  org.hibernate.type: trace
