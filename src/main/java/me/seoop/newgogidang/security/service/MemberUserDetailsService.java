@@ -26,9 +26,10 @@ public class MemberUserDetailsService implements UserDetailsService {
         log.info("MemberUserDetailsService loadUserByUsername: " + username);
         Optional<Member> result = memberRepository.findByEmail(username, false);
 
-//        if (result.isPresent()) {
-//            throw new UsernameNotFoundException("Check Email or Social");
-//        }
+        log.info("result.isPresent : " + result.isPresent());
+        if (!(result.isPresent())) {
+            throw new UsernameNotFoundException("Check Email or Social");
+        }
 
         Member member = result.get();
         log.info("-----login-----");

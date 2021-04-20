@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <th:block th:replace="~{/layout/basic :: setContent(~{this::content} )}">
 
   <th:block th:fragment="content">
 
     <h1 class="mt-4">가게 상세 페이지
-      <button type="button" class="btn btn-info modifyStoreBtn"> 가게 수정 </button>
-      <button type="button" class="btn btn-info addItemBtn"> 메뉴 등록/수정 </button>
+      <button sec:authorize="hasRole('ROLE_SELLER')" type="button" class="btn btn-info modifyStoreBtn"> 가게 수정 </button>
+      <button sec:authorize="hasRole('ROLE_SELLER')" type="button" class="btn btn-info addItemBtn"> 메뉴 등록/수정 </button>
     </h1>
 
     <div class="form-group">
