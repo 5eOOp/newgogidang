@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <th:block th:replace="~{/layout/basic :: setContent(~{this::content} )}">
 
@@ -7,7 +8,7 @@
     <h1 class="mt-4"><a th:href="@{/store/list?page=1}" style="text-decoration: none">Store List Page</a>
       <span>
         <a th:href="@{/store/register}">
-          <button type="button" class="btn btn-outline-primary">REGISTER</button>
+          <button sec:authorize="hasRole('ROLE_SELLER')" type="button" class="btn btn-outline-primary">REGISTER</button>
         </a>
       </span>
     </h1>

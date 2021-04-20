@@ -3,7 +3,9 @@ package me.seoop.newgogidang.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.seoop.newgogidang.dto.MemberDTO;
+import me.seoop.newgogidang.security.dto.AuthMemberDTO;
 import me.seoop.newgogidang.service.MemberService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,13 +39,8 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public String loginPost(MemberDTO memberDTO) {
-        log.info("memberDTO: " + memberDTO);
-        int count = memberService.login(memberDTO);
-        if (count == 1) {
-            return "redirect:/store/list";
-        } else {
-            return "redirect:/member/login";
-        }
+    public String loginPost(@AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
+        
+        return "redirect:/store/list";
     }
 }
