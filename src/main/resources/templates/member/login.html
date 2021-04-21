@@ -18,7 +18,8 @@
       </div>
 
       <button type="submit" class="btn btn-primary">로그인</button>
-      <button type="submit" class="btn btn-primary">회원가입</button>
+      <button type="button" class="btn btn-primary" th:onclick="'location.href=\'' + @{/member/}">회원가입</button>
+
     </form>
 
   </th:block>
