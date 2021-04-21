@@ -34,10 +34,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/store/list").permitAll();
 
         http.formLogin().loginPage("/member/login").successHandler(successHandler());
-        http.logout();
+        http.logout().logoutUrl("/member/logout").logoutSuccessUrl("/");
         http.csrf().disable();
         http.oauth2Login();
-        http.oauth2Login().successHandler(successHandler());
+        http.oauth2Login().loginPage("/").successHandler(successHandler());
         http.rememberMe().tokenValiditySeconds(60*60*24*7).userDetailsService(memberUserDetailsService);
     }
 
