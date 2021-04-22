@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<th:block th:replace="~{/layout/basic :: setContent(~{this::content} )}">
+
+    <th:block th:fragment="content">
+        <h1 class="mt-4"><a style="text-decoration: none">Qna</a>
+            <span>
+        <a th:href="@{/store/register}">
+          <button sec:authorize="hasRole('ROLE_ADMIN')" type="button" class="btn btn-outline-primary">REGISTER</button>
+        </a>
+      </span>
+        </h1>
+
+        <form action="/store/list" method="get" id="searchForm">
+            <input type="hidden" name="page" value="1">
+        </form>
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">가게 사진</th>
+                <th scope="col">가게 이름</th>
+                <th scope="col">리뷰 갯수</th>
+                <th scope="col">평균 평점</th>
+                <th scope="col">등록일</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="dto : ${result.dtoList}">
+                <th scope="row">
+                    <a th:href="@{/store/read(sno = ${dto.sno}, page= ${result.page})}">[[${dto.sno}]]</a>
+                </th>
+                <td><img th:if="${dto.imgDTOList.size() > 0 && dto.imgDTOList[0].path != null }"
+                         th:src="|/display?fileName=${dto.imgDTOList[0].getThumbnailURL()}|" ></td>
+                <td><b>[[${dto.title}]]</b></td>
+                <td><b>[[${dto.reviewCnt}]]</b></td>
+                <td>
+                    <b th:if="${dto.avg > 0}">[[${#numbers.formatDecimal(dto.avg, 0, 2)}]]</b>
+                    <b th:if="${dto.avg == 0}">0.00</b>
+                </td>
+                <td>[[${#temporals.format(dto.regDate, 'yyyy/MM/dd')}]]</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <ul class="pagination h-100 justify-content-center align-items-center">
+
+            <li class="page-item " th:if="${result.prev}">
+                <a class="page-link" th:href="@{/store/list(page= ${result.start -1})}" tabindex="-1">Previous</a>
+            </li>
+
+            <li th:class=" 'page-item ' + ${result.page == page?'active':''} " th:each="page: ${result.pageList}">
+                <a class="page-link" th:href="@{/store/list(page = ${page})}">
+                    [[${page}]]
+                </a>
+            </li>
+
+            <li class="page-item" th:if="${result.next}">
+                <a class="page-link" th:href="@{/store/list(page= ${result.end + 1} )}">Next</a>
+            </li>
+        </ul>
+
+        <script th:inline="javascript">
+
+        </script>
+
+    </th:block>
+</th:block>
