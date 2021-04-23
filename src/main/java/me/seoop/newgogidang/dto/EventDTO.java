@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class EventDTO {
 
+    private Long eno;
     private String title;
     private String content;
 }

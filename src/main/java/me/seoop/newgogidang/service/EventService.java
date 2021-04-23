@@ -23,6 +23,7 @@ public interface EventService {
 
     default EventDTO entityToDTO(Event event) {
         EventDTO eventDTO = EventDTO.builder()
+                .eno(event.getEno())
                 .title(event.getTitle())
                 .content(event.getContent())
                 .build();

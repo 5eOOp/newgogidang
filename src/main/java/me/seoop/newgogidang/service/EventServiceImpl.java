@@ -6,6 +6,7 @@ import me.seoop.newgogidang.dto.EventDTO;
 import me.seoop.newgogidang.dto.PageRequestDTO;
 import me.seoop.newgogidang.dto.PageResultDTO;
 import me.seoop.newgogidang.dto.StoreDTO;
+import me.seoop.newgogidang.entity.Event;
 import me.seoop.newgogidang.entity.Store;
 import me.seoop.newgogidang.entity.StoreImg;
 import me.seoop.newgogidang.repository.EventRepository;
@@ -27,6 +28,11 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public PageResultDTO<EventDTO, Object[]> getList(PageRequestDTO requestDTO) {
-        return null;
+        Pageable pageable = requestDTO.getPageable(Sort.by("eno").descending());
+        Page<Object[]> result = eventRepository.getListPage(pageable);
+        Function<Object[], EventDTO> fn = (arr -> entityToDTO(
+                (Event) arr[0]
+        ));
+        return new PageResultDTO<>(result, fn);
     }
 }

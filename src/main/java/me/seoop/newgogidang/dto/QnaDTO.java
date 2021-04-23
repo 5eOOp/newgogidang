@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class QnaDTO {
 
+    private Long qno;
     private String title;
     private String content;
 }
