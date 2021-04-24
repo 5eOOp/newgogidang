@@ -1,15 +1,14 @@
 package me.seoop.newgogidang.service;
 
-import me.seoop.newgogidang.dto.EventDTO;
 import me.seoop.newgogidang.dto.NoticeDTO;
 import me.seoop.newgogidang.dto.PageRequestDTO;
 import me.seoop.newgogidang.dto.PageResultDTO;
-import me.seoop.newgogidang.entity.Event;
 import me.seoop.newgogidang.entity.Notice;
 
 public interface NoticeService {
 
     PageResultDTO<NoticeDTO, Object[]> getList(PageRequestDTO requestDTO);
+    NoticeDTO getNotice(Long nno);
 
     default Notice dtoToEntity(NoticeDTO noticeDTO) {
         Notice notice = Notice.builder()

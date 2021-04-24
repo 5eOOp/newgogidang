@@ -2,11 +2,9 @@ package me.seoop.newgogidang.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.seoop.newgogidang.dto.EventDTO;
 import me.seoop.newgogidang.dto.PageRequestDTO;
 import me.seoop.newgogidang.dto.PageResultDTO;
 import me.seoop.newgogidang.dto.QnaDTO;
-import me.seoop.newgogidang.entity.Event;
 import me.seoop.newgogidang.entity.Qna;
 import me.seoop.newgogidang.repository.QnaRepository;
 import org.springframework.data.domain.Page;
@@ -31,5 +29,16 @@ public class QnaServiceImpl implements QnaService {
                 (Qna) arr[0]
         ));
         return new PageResultDTO<>(result, fn);
+    }
+
+    @Override
+    public QnaDTO getQna(Long qno) {
+        Qna qna = qnaRepository.getOne(qno);
+        QnaDTO qnaDTO = QnaDTO.builder()
+                .qno(qna.getQno())
+                .title(qna.getTitle())
+                .content(qna.getContent())
+                .build();
+        return qnaDTO;
     }
 }

@@ -32,4 +32,15 @@ public class NoticeServiceImpl implements NoticeService {
         ));
         return new PageResultDTO<>(result, fn);
     }
+
+    @Override
+    public NoticeDTO getNotice(Long nno) {
+        Notice notice = noticeRepository.getOne(nno);
+        NoticeDTO noticeDTO = NoticeDTO.builder()
+                .nno(notice.getNno())
+                .title(notice.getTitle())
+                .content(notice.getContent())
+                .build();
+        return noticeDTO;
+    }
 }

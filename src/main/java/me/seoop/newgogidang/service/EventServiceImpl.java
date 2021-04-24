@@ -5,18 +5,13 @@ import lombok.extern.slf4j.Slf4j;
 import me.seoop.newgogidang.dto.EventDTO;
 import me.seoop.newgogidang.dto.PageRequestDTO;
 import me.seoop.newgogidang.dto.PageResultDTO;
-import me.seoop.newgogidang.dto.StoreDTO;
 import me.seoop.newgogidang.entity.Event;
-import me.seoop.newgogidang.entity.Store;
-import me.seoop.newgogidang.entity.StoreImg;
 import me.seoop.newgogidang.repository.EventRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.function.Function;
 
 @Service
@@ -34,5 +29,16 @@ public class EventServiceImpl implements EventService {
                 (Event) arr[0]
         ));
         return new PageResultDTO<>(result, fn);
+    }
+
+    @Override
+    public EventDTO getEvent(Long eno) {
+        Event event = eventRepository.getOne(eno);
+        EventDTO eventDTO = EventDTO.builder()
+                .eno(event.getEno())
+                .title(event.getTitle())
+                .content(event.getContent())
+                .build();
+        return eventDTO;
     }
 }

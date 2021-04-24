@@ -3,6 +3,7 @@ package me.seoop.newgogidang.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.seoop.newgogidang.dto.PageRequestDTO;
+import me.seoop.newgogidang.dto.QnaDTO;
 import me.seoop.newgogidang.service.QnaService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +24,14 @@ public class QnaController {
         model.addAttribute("result", qnaService.getList(pageRequestDTO));
 
         return "board/qna";
+    }
+
+    @GetMapping("/read")
+    public String getQna(Long qno, Model model) {
+        log.info("qno: " + qno);
+        QnaDTO qnaDTO = qnaService.getQna(qno);
+        model.addAttribute("dto", qnaDTO);
+        return "board/read";
     }
 
 }

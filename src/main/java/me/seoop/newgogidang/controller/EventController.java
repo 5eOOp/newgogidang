@@ -2,6 +2,7 @@ package me.seoop.newgogidang.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.seoop.newgogidang.dto.EventDTO;
 import me.seoop.newgogidang.dto.PageRequestDTO;
 import me.seoop.newgogidang.service.EventService;
 import org.springframework.stereotype.Controller;
@@ -23,5 +24,13 @@ public class EventController {
         model.addAttribute("result", eventService.getList(pageRequestDTO));
 
         return "board/event";
+    }
+
+    @GetMapping("/read")
+    public String getEvent(Long eno, Model model) {
+        log.info("eno: " + eno);
+        EventDTO eventDTO = eventService.getEvent(eno);
+        model.addAttribute("dto", eventDTO);
+        return "board/read";
     }
 }

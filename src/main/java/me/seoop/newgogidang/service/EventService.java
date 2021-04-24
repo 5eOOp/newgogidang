@@ -3,14 +3,12 @@ package me.seoop.newgogidang.service;
 import me.seoop.newgogidang.dto.EventDTO;
 import me.seoop.newgogidang.dto.PageRequestDTO;
 import me.seoop.newgogidang.dto.PageResultDTO;
-import me.seoop.newgogidang.dto.StoreDTO;
 import me.seoop.newgogidang.entity.Event;
-
-import java.util.List;
 
 public interface EventService {
 
     PageResultDTO<EventDTO, Object[]> getList(PageRequestDTO requestDTO);
+    EventDTO getEvent(Long eno);
 
     default Event dtoToEntity(EventDTO eventDTO) {
         Event event = Event.builder()
