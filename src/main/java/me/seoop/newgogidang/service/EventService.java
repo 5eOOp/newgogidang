@@ -7,8 +7,11 @@ import me.seoop.newgogidang.entity.Event;
 
 public interface EventService {
 
-    PageResultDTO<EventDTO, Object[]> getList(PageRequestDTO requestDTO);
+    PageResultDTO<EventDTO, Event> getList(PageRequestDTO requestDTO);
     EventDTO getEvent(Long eno);
+    void remove(Long eno);
+    void modify(EventDTO dto);
+    Long register(EventDTO dto);
 
     default Event dtoToEntity(EventDTO eventDTO) {
         Event event = Event.builder()
@@ -24,6 +27,8 @@ public interface EventService {
                 .eno(event.getEno())
                 .title(event.getTitle())
                 .content(event.getContent())
+                .regDate(event.getRegDate())
+                .modDate(event.getModDate())
                 .build();
 
         return eventDTO;

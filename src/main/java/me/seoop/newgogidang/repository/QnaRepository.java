@@ -1,13 +1,9 @@
 package me.seoop.newgogidang.repository;
 
 import me.seoop.newgogidang.entity.Qna;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
-public interface QnaRepository extends JpaRepository<Qna, Long> {
+public interface QnaRepository extends JpaRepository<Qna, Long>, QuerydslPredicateExecutor<Qna> {
 
-    @Query("select q from Qna q")
-    Page<Object[]> getListPage(Pageable pageable);
 }

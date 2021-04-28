@@ -16,7 +16,7 @@ import javax.persistence.Id;
 public class Qna extends BaseEntity{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Qno;
+    private Long qno;
 
     private String title;
     private String content;

@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -14,4 +16,6 @@ public class NoticeDTO {
     private Long nno;
     private String title;
     private String content;
+    private LocalDateTime regDate;
+    private LocalDateTime modDate;
 }

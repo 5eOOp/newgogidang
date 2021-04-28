@@ -7,8 +7,11 @@ import me.seoop.newgogidang.entity.Qna;
 
 public interface QnaService {
 
-    PageResultDTO<QnaDTO, Object[]> getList(PageRequestDTO requestDTO);
+    PageResultDTO<QnaDTO, Qna> getList(PageRequestDTO requestDTO);
     QnaDTO getQna(Long qno);
+    void remove(Long qno);
+    void modify(QnaDTO dto);
+    Long register(QnaDTO dto);
 
     default Qna dtoToEntity(QnaDTO qnaDTO) {
         Qna qna = Qna.builder()
@@ -21,8 +24,11 @@ public interface QnaService {
 
     default QnaDTO entityToDTO(Qna qna) {
         QnaDTO qnaDTO = QnaDTO.builder()
+                .qno(qna.getQno())
                 .title(qna.getTitle())
                 .content(qna.getContent())
+                .regDate(qna.getRegDate())
+                .modDate(qna.getModDate())
                 .build();
 
         return qnaDTO;
