@@ -33,7 +33,7 @@
         </div>
 
         <a th:href="@{/notice/modify(nno = ${dto.nno}, page=${requestDTO.page}, type=${requestDTO.type}, keyword =${requestDTO.keyword})}">
-            <button type="button" class="btn btn-primary">수정</button>
+            <button sec:authorize="hasRole('ROLE_ADMIN')" type="button" class="btn btn-primary">수정</button>
         </a>
 
         <a th:href="@{/notice/list(page=${requestDTO.page} , type=${requestDTO.type}, keyword =${requestDTO.keyword})}">
