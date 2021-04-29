@@ -19,6 +19,16 @@ public interface StoreRepository extends JpaRepository<Store, Long>, QuerydslPre
             "left outer join Review r on r.store = s group by s, si.imgnum")
     Page<Object[]> getListPage(Pageable pageable);
 
+    @Query("select s, si, avg(coalesce(r.grade, 0)), count(distinct r) from Store s " +
+            "left outer join StoreImg si on si.store = s " +
+            "left outer join Review r on r.store = s group by s, si.imgnum order by avg(coalesce(r.grade, 0)) desc")
+    Page<Object[]> getListPageWithAvgDesc(Pageable pageable);
+
+    @Query("select s, si, avg(coalesce(r.grade, 0)), count(distinct r) from Store s " +
+            "left outer join StoreImg si on si.store = s " +
+            "left outer join Review r on r.store = s group by s, si.imgnum order by count(distinct r) desc")
+    Page<Object[]> getListPageWithCountDesc(Pageable pageable);
+
     @Query("select s, si, avg(coalesce(r.grade, 0)), count(r), it " +
             "from Store s left outer join StoreImg si on si.store = s " +
             "left outer join Review r on r.store = s " +

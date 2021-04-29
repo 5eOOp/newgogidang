@@ -38,8 +38,12 @@
           <th scope="col">#</th>
           <th scope="col">가게 사진</th>
           <th scope="col">가게 이름</th>
-          <th scope="col">리뷰 갯수</th>
-          <th scope="col">평균 평점</th>
+          <th scope="col">
+            <a th:href="@{/store/listCount}">리뷰 갯수</a>
+          </th>
+          <th scope="col">
+            <a th:href="@{/store/listAvg}">평균 별점</a>
+          </th>
           <th scope="col">등록일</th>
         </tr>
       </thead>

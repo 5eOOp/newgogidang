@@ -19,6 +19,8 @@ public interface StoreService {
     Long register(StoreDTO storeDTO);
     PageResultDTO<StoreDTO, Object[]> getList(PageRequestDTO requestDTO);
     PageResultDTO<StoreDTO, Store> getSearchList(PageRequestDTO requestDTO);
+    PageResultDTO<StoreDTO, Object[]> getListPageWithAvgDesc(PageRequestDTO requestDTO);
+    PageResultDTO<StoreDTO, Object[]> getListPageWithCountDesc(PageRequestDTO requestDTO);
     StoreDTO getStore(Long sno);
     StoreDTO getStoreFirst(Long sno);
     void modify(StoreDTO storeDTO);

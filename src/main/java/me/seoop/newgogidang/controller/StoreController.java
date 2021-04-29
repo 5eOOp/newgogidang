@@ -44,6 +44,22 @@ public class StoreController {
         return "store/list";
     }
 
+    @GetMapping("/listAvg")
+    public String listWithAvgDesc(PageRequestDTO pageRequestDTO, Model model) {
+        log.info("pageRequestDTO: " + pageRequestDTO);
+        model.addAttribute("result", storeService.getListPageWithAvgDesc(pageRequestDTO));
+
+        return "store/list";
+    }
+
+    @GetMapping("/listCount")
+    public String listWithCountDesc(PageRequestDTO pageRequestDTO, Model model) {
+        log.info("pageRequestDTO: " + pageRequestDTO);
+        model.addAttribute("result", storeService.getListPageWithCountDesc(pageRequestDTO));
+
+        return "store/list";
+    }
+
     @GetMapping("/slist")
     public String slist(PageRequestDTO pageRequestDTO, Model model) {
         log.info("pageRequestDTO: " + pageRequestDTO);

@@ -69,6 +69,32 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
+    public PageResultDTO<StoreDTO, Object[]> getListPageWithAvgDesc(PageRequestDTO requestDTO) {
+        Pageable pageable = requestDTO.getPageable(Sort.by("sno").descending());
+        Page<Object[]> result = storeRepository.getListPageWithAvgDesc(pageable);
+        Function<Object[], StoreDTO> fn = (arr -> entitiesToDTOList(
+                (Store) arr[0],
+                (List<StoreImg>) (Arrays.asList((StoreImg) arr[1])),
+                (Double) arr[2],
+                (Long)  arr[3])
+        );
+        return new PageResultDTO<>(result, fn);
+    }
+
+    @Override
+    public PageResultDTO<StoreDTO, Object[]> getListPageWithCountDesc(PageRequestDTO requestDTO) {
+        Pageable pageable = requestDTO.getPageable(Sort.by("sno").descending());
+        Page<Object[]> result = storeRepository.getListPageWithCountDesc(pageable);
+        Function<Object[], StoreDTO> fn = (arr -> entitiesToDTOList(
+                (Store) arr[0],
+                (List<StoreImg>) (Arrays.asList((StoreImg) arr[1])),
+                (Double) arr[2],
+                (Long)  arr[3])
+        );
+        return new PageResultDTO<>(result, fn);
+    }
+
+    @Override
     public StoreDTO getStore(Long sno) {
         List<Object[]> result = storeRepository.getStoreWithAll(sno);
         log.info("length: " + result.get(0).length);
