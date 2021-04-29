@@ -2,6 +2,7 @@ package me.seoop.newgogidang.service;
 
 import lombok.extern.slf4j.Slf4j;
 import me.seoop.newgogidang.dto.*;
+import me.seoop.newgogidang.entity.Event;
 import me.seoop.newgogidang.entity.Store;
 import me.seoop.newgogidang.entity.StoreImg;
 import me.seoop.newgogidang.entity.StoreItem;
@@ -17,6 +18,7 @@ public interface StoreService {
 
     Long register(StoreDTO storeDTO);
     PageResultDTO<StoreDTO, Object[]> getList(PageRequestDTO requestDTO);
+    PageResultDTO<StoreDTO, Store> getSearchList(PageRequestDTO requestDTO);
     StoreDTO getStore(Long sno);
     StoreDTO getStoreFirst(Long sno);
     void modify(StoreDTO storeDTO);
@@ -110,6 +112,17 @@ public interface StoreService {
         }
 
         return entityMap;
+    }
+
+    default StoreDTO entityToDTO(Store store) {
+        StoreDTO storeDTO = StoreDTO.builder()
+                .sno(store.getSno())
+                .title(store.getTitle())
+                .address(store.getAddress())
+                .regDate(store.getRegDate())
+                .build();
+
+        return storeDTO;
     }
 
 //    default StoreDTO entitiesToDTO(Store store, List<StoreItem> storeItems, Double avg, Long reviewCnt) {

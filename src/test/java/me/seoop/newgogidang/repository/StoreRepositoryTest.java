@@ -69,14 +69,14 @@ class StoreRepositoryTest {
         });
     }
 
-    @Test
-    public void testListPage() throws Exception {
-        PageRequest pageRequest = PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "sno"));
-        Page<Object[]> result = storeRepository.getListPage(pageRequest);
-        for (Object[] objects : result) {
-            System.out.println(Arrays.toString(objects));
-        }
-    }
+//    @Test
+//    public void testListPage() throws Exception {
+//        PageRequest pageRequest = PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "sno"));
+//        Page<Object[]> result = storeRepository.getListPage(pageRequest);
+//        for (Object[] objects : result) {
+//            System.out.println(Arrays.toString(objects));
+//        }
+//    }
 
     @Test
     public void testGetStoreWithAll() throws Exception {

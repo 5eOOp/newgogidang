@@ -44,6 +44,14 @@ public class StoreController {
         return "store/list";
     }
 
+    @GetMapping("/slist")
+    public String slist(PageRequestDTO pageRequestDTO, Model model) {
+        log.info("pageRequestDTO: " + pageRequestDTO);
+        model.addAttribute("result", storeService.getSearchList(pageRequestDTO));
+
+        return "store/search_list";
+    }
+
     @GetMapping("/read")
     public String read(long sno, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, Model model) {
         log.info("sno: " + sno);

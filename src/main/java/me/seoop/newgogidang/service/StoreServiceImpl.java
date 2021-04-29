@@ -1,24 +1,22 @@
 package me.seoop.newgogidang.service;
 
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.seoop.newgogidang.dto.EventDTO;
 import me.seoop.newgogidang.dto.PageRequestDTO;
 import me.seoop.newgogidang.dto.PageResultDTO;
 import me.seoop.newgogidang.dto.StoreDTO;
-import me.seoop.newgogidang.entity.Review;
-import me.seoop.newgogidang.entity.Store;
-import me.seoop.newgogidang.entity.StoreImg;
-import me.seoop.newgogidang.entity.StoreItem;
+import me.seoop.newgogidang.entity.*;
 import me.seoop.newgogidang.repository.StoreImgRepository;
 import me.seoop.newgogidang.repository.StoreItemRepository;
 import me.seoop.newgogidang.repository.StoreRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.util.*;
 import java.util.function.Function;
@@ -58,6 +56,15 @@ public class StoreServiceImpl implements StoreService {
                 (Double) arr[2],
                 (Long)  arr[3])
         );
+        return new PageResultDTO<>(result, fn);
+    }
+
+    @Override
+    public PageResultDTO<StoreDTO, Store> getSearchList(PageRequestDTO requestDTO) {
+        Pageable pageable = requestDTO.getPageable(Sort.by("sno").descending());
+        BooleanBuilder booleanBuilder = getSearch(requestDTO); // 검색조건
+        Page<Store> result = storeRepository.findAll(booleanBuilder, pageable);
+        Function<Store, StoreDTO> fn = (store -> entityToDTO(store));
         return new PageResultDTO<>(result, fn);
     }
 
@@ -113,5 +120,31 @@ public class StoreServiceImpl implements StoreService {
             store.changePhone(storeDTO.getPhone());
             storeRepository.save(store);
         }
+    }
+
+    private BooleanBuilder getSearch(PageRequestDTO requestDTO) {
+        String type = requestDTO.getType();
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+        QStore qStore = QStore.store;
+        String keyword = requestDTO.getKeyword();
+        BooleanExpression expression = qStore.sno.gt(0L);
+        booleanBuilder.and(expression);
+        if (type == null || type.trim().length() == 0) {
+            // 검색 조건이 없는 경우
+            return booleanBuilder;
+        }
+
+        BooleanBuilder condtionBuilder = new BooleanBuilder();
+
+        if(type.contains("t")) {
+            condtionBuilder.or(qStore.title.contains(keyword));
+        }
+        if (type.contains("c")) {
+            condtionBuilder.or(qStore.address.contains(keyword));
+        }
+
+        booleanBuilder.and(condtionBuilder);
+
+        return booleanBuilder;
     }
 }
