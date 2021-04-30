@@ -7,6 +7,8 @@ import me.seoop.newgogidang.entity.Member;
 import me.seoop.newgogidang.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -25,6 +27,30 @@ public class MemberServiceImpl implements MemberService{
     public int login(MemberDTO memberDTO) {
         int count = memberRepository.loginCheck(memberDTO.getEmail(), memberDTO.getPw());
         return count;
+    }
+
+    @Override
+    public MemberDTO getMember(Long mid) {
+        Member member = memberRepository.getOne(mid);
+        MemberDTO memberDTO = entityToDTO(member);
+
+        return memberDTO;
+    }
+
+    @Override
+    public void modify(MemberDTO memberDTO) {
+        Optional<Member> result = memberRepository.findById(memberDTO.getMid());
+        if (result.isPresent()) {
+            Member member = result.get();
+            member.changePw(memberDTO.getPw());
+            member.changeNickname(memberDTO.getNickname());
+            memberRepository.save(member);
+        }
+    }
+
+    @Override
+    public void remove(Long mid) {
+        memberRepository.deleteById(mid);
     }
 
 }

@@ -30,4 +30,12 @@ public class Member extends BaseEntity {
     public void addMemberRole(MemberRole memberRole) {
         roleSet.add(memberRole);
     }
+
+    public void changePw(String pw) {
+        this.pw = pw;
+    }
+
+    public void changeNickname(String nickname) {
+        this.nickname = nickname;
+    }
 }

@@ -5,11 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import me.seoop.newgogidang.dto.MemberDTO;
 import me.seoop.newgogidang.security.dto.AuthMemberDTO;
 import me.seoop.newgogidang.service.MemberService;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -48,5 +46,41 @@ public class MemberController {
     @GetMapping("/member/logout")
     public void  logout() {
 
+    }
+
+    @GetMapping("/member/read")
+    public String getMember(Long mid, Model model) {
+        log.info("mid: " + mid);
+        MemberDTO memberDTO = memberService.getMember(mid);
+        model.addAttribute("dto", memberDTO);
+
+        return "member/read";
+    }
+
+    @GetMapping("/member/modify")
+    public String modifyForm(Long mid, Model model) {
+        log.info("modify mid: " + mid);
+        MemberDTO memberDTO = memberService.getMember(mid);
+        model.addAttribute("dto", memberDTO);
+        return "member/modify";
+    }
+
+    @PostMapping("/member/modify")
+    public String modify(MemberDTO memberDTO, RedirectAttributes redirectAttributes) {
+        log.info("post modify.....");
+        log.info("dto: " + memberDTO);
+        memberService.modify(memberDTO);
+        redirectAttributes.addAttribute("mid",memberDTO.getMid());
+
+        return "redirect:/member/read";
+    }
+
+    @PostMapping("/member/remove")
+    public String remove(Long mid, RedirectAttributes redirectAttributes) {
+        log.info("remove mid: " + mid);
+        memberService.remove(mid);
+        redirectAttributes.addFlashAttribute("msg", mid);
+
+        return "redirect:/store/list";
     }
 }
