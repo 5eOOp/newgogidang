@@ -6,6 +6,7 @@ import me.seoop.newgogidang.dto.MemberDTO;
 import me.seoop.newgogidang.security.dto.AuthMemberDTO;
 import me.seoop.newgogidang.service.MemberService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class MemberController {
 
     private final MemberService memberService;
+    private final PasswordEncoder passwordEncoder;
 
     @GetMapping("/member/register")
     public String register() {
@@ -27,12 +29,13 @@ public class MemberController {
     @PostMapping("/member/register")
     public String registerPost(MemberDTO memberDTO, RedirectAttributes redirectAttributes) {
         log.info("memberDTO: " + memberDTO);
+        memberDTO.setPw(passwordEncoder.encode(memberDTO.getPw()));
         Long mid = memberService.register(memberDTO);
         redirectAttributes.addFlashAttribute("msg", mid);
         return "redirect:/member/login";
     }
 
-    @GetMapping("/")
+    @GetMapping("/loginPage")
     public String loginForm() {
         return "member/login";
     }
