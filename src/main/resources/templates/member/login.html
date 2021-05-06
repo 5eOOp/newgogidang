@@ -6,7 +6,12 @@
   <th:block th:fragment="content">
 
     <h1 class="mt-4">로그인 페이지</h1>
-    <form th:action="@{/member/login}" th:method="post">
+    <form th:action="@{/login_proc}" th:method="post">
+      <input th:type="hidden" th:value="secret" name="secret_key">
+      <div class="form-group" th:if="${param.error}">
+        <span th:text="${exception}"> </span>
+      </div>
+
       <div class="form-group">
         <label >이메일</label>
         <input type="text" class="form-control" name="username" placeholder="xxx@aaa.com" autofocus="autofocus">
@@ -18,7 +23,7 @@
       </div>
 
       <button type="submit" class="btn btn-primary">로그인</button>
-      <button type="button" class="btn btn-primary" th:onclick="'location.href=\'' + @{/member/}">회원가입</button>
+<!--      <button type="button" class="btn btn-primary" th:onclick="'location.href=\'' + @{/member/}">회원가입</button>-->
 
     </form>
 

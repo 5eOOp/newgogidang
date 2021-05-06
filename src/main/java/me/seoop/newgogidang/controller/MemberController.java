@@ -3,15 +3,25 @@ package me.seoop.newgogidang.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.seoop.newgogidang.dto.MemberDTO;
+import me.seoop.newgogidang.entity.Member;
 import me.seoop.newgogidang.security.dto.AuthMemberDTO;
 import me.seoop.newgogidang.service.MemberService;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.security.Principal;
 
 @Controller
 @RequiredArgsConstructor
@@ -20,6 +30,11 @@ public class MemberController {
 
     private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
+
+    @GetMapping("/")
+    public String home() {
+        return "home";
+    }
 
     @GetMapping("/member/register")
     public String register() {
@@ -32,23 +47,43 @@ public class MemberController {
         memberDTO.setPw(passwordEncoder.encode(memberDTO.getPw()));
         Long mid = memberService.register(memberDTO);
         redirectAttributes.addFlashAttribute("msg", mid);
-        return "redirect:/member/login";
+        return "redirect:/login";
     }
 
-    @GetMapping("/loginPage")
-    public String loginForm() {
+    @GetMapping("/login")
+    public String loginForm(@RequestParam(value = "error", required = false) String error,
+                            @RequestParam(value = "exception", required = false) String exception, Model model) {
+        model.addAttribute("error", error);
+        model.addAttribute("exception", exception);
         return "member/login";
     }
 
-    @PostMapping("/member/login")
+    @PostMapping("/login")
     public String loginPost(@AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
-        
+
         return "redirect:/store/list";
     }
 
-    @GetMapping("/member/logout")
-    public void  logout() {
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
 
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if(auth != null) {
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+
+        return "redirect:/login";
+    }
+
+    @GetMapping(value="/denied")
+    public String accessDenied(@RequestParam(value = "exception", required = false) String exception, Model model) throws Exception {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Member member = (Member) authentication.getPrincipal();
+        model.addAttribute("email", member.getEmail());
+        model.addAttribute("exception", exception);
+
+        return "member/denied";
     }
 
     @GetMapping("/member/read")
