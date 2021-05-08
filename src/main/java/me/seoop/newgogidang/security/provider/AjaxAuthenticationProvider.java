@@ -4,28 +4,23 @@ import lombok.extern.slf4j.Slf4j;
 import me.seoop.newgogidang.security.common.FormWebAuthenticationDetails;
 import me.seoop.newgogidang.security.dto.AuthMemberDTO;
 import me.seoop.newgogidang.security.service.MemberUserDetailsService;
+import me.seoop.newgogidang.security.token.AjaxAuthenticationToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Slf4j
-public class CustomAuthenticationProvider implements AuthenticationProvider {
+public class AjaxAuthenticationProvider implements AuthenticationProvider {
 
     @Autowired
     private MemberUserDetailsService memberUserDetailsService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-    public CustomAuthenticationProvider(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-    }
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -40,17 +35,11 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 //            throw new BadCredentialsException("BadCredentialsException");
 //        }
 
-        FormWebAuthenticationDetails formWebAuthenticationDetails = (FormWebAuthenticationDetails) authentication.getDetails();
-        String secretKey = formWebAuthenticationDetails.getSecretKey();
-        if (secretKey == null || !"secret".equals(secretKey)) {
-            throw new InsufficientAuthenticationException("InsufficientAuthenticationException");
-        }
-
-        return new UsernamePasswordAuthenticationToken(authMemberDTO.getEmail(), null, authMemberDTO.getAuthorities());
+        return new AjaxAuthenticationToken(authMemberDTO.getEmail(), null, authMemberDTO.getAuthorities());
     }
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return authentication.equals(UsernamePasswordAuthenticationToken.class);
+        return authentication.equals(AjaxAuthenticationToken.class);
     }
 }

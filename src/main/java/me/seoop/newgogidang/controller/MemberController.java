@@ -4,11 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.seoop.newgogidang.dto.MemberDTO;
 import me.seoop.newgogidang.entity.Member;
-import me.seoop.newgogidang.security.dto.AuthMemberDTO;
 import me.seoop.newgogidang.service.MemberService;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -21,7 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.security.Principal;
+import javax.servlet.http.HttpSession;
 
 @Controller
 @RequiredArgsConstructor
@@ -59,8 +56,8 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public String loginPost(@AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
-
+    public String loginPost(HttpSession session) {
+        
         return "redirect:/store/list";
     }
 

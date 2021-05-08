@@ -18,27 +18,27 @@ import java.util.Map;
 public class AuthMemberDTO extends User implements OAuth2User {
 
     private String email;
-    private String password;
+    private String pw;
     private String nickname;
     private boolean fromSocial;
     private Map<String, Object> attr;
 
     public AuthMemberDTO(String username,
-                         String password,
+                         String pw,
                          boolean fromSocial,
                          Collection<? extends GrantedAuthority> authorities,
                          Map<String, Object> attr) {
-        this(username, password, fromSocial, authorities);
+        this(username, pw, fromSocial, authorities);
         this.attr = attr;
     }
 
     public AuthMemberDTO(String username,
-                         String password,
+                         String pw,
                          boolean fromSocial,
                          Collection<? extends GrantedAuthority> authorities) {
-        super(username, password, authorities);
+        super(username, pw, authorities);
         this.email = username;
-        this.password = password;
+        this.pw = pw;
         this.fromSocial = fromSocial;
     }
 
