@@ -53,4 +53,11 @@ public class MemberServiceImpl implements MemberService{
         memberRepository.deleteById(mid);
     }
 
+    @Override
+    public MemberDTO findByEmail(String email) {
+        Member member = memberRepository.findByEmail(email);
+        MemberDTO memberDTO = entityToDTO(member);
+        return memberDTO;
+    }
+
 }

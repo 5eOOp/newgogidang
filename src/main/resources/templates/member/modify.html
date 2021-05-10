@@ -58,9 +58,8 @@
 
         actionForm
                 .attr("action", "/member/remove")
-                .attr("method","post");
-
-        actionForm.submit();
+                .attr("method","get")
+                .submit();
       });
 
       $(".modifyBtn").click(function() {

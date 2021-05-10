@@ -77,7 +77,7 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" th:href="@{/member/read}">내정보</a>
-                            <a class="dropdown-item" href="#">내가쓴리뷰</a>
+                            <a class="dropdown-item" th:href="@{/member/review}">내가쓴리뷰</a>
                             <a sec:authorize="hasRole('ROLE_SELLER')" class="dropdown-item" href="#">내가게</a>
                         </div>
                     </li>

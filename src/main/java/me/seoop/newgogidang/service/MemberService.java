@@ -11,6 +11,7 @@ public interface MemberService {
     MemberDTO getMember(Long mid);
     void modify(MemberDTO memberDTO);
     void remove(Long mid);
+    MemberDTO findByEmail(String email);
 
 
     default Member dtoToEntity(MemberDTO memberDTO) {

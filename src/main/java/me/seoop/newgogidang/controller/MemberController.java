@@ -3,8 +3,10 @@ package me.seoop.newgogidang.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.seoop.newgogidang.dto.MemberDTO;
+import me.seoop.newgogidang.dto.ReviewDTO;
 import me.seoop.newgogidang.entity.Member;
 import me.seoop.newgogidang.service.MemberService;
+import me.seoop.newgogidang.service.ReviewService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -27,6 +30,7 @@ public class MemberController {
 
     private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
+    private final ReviewService reviewService;
 
     @GetMapping("/")
     public String home() {
@@ -56,8 +60,8 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public String loginPost(HttpSession session) {
-        
+    public String loginPost() {
+
         return "redirect:/store/list";
     }
 
@@ -84,9 +88,10 @@ public class MemberController {
     }
 
     @GetMapping("/member/read")
-    public String getMember(Long mid, Model model) {
-        log.info("mid: " + mid);
-        MemberDTO memberDTO = memberService.getMember(mid);
+    public String getMember(HttpSession session, Model model) {
+        String email = (String) session.getAttribute("email");
+        log.info("email: " + email);
+        MemberDTO memberDTO = memberService.findByEmail(email);
         model.addAttribute("dto", memberDTO);
 
         return "member/read";
@@ -110,12 +115,24 @@ public class MemberController {
         return "redirect:/member/read";
     }
 
-    @PostMapping("/member/remove")
-    public String remove(Long mid, RedirectAttributes redirectAttributes) {
-        log.info("remove mid: " + mid);
-        memberService.remove(mid);
-        redirectAttributes.addFlashAttribute("msg", mid);
+    @GetMapping("/member/remove")
+    public String remove(HttpSession session, RedirectAttributes redirectAttributes) {
+        String email = (String) session.getAttribute("email");
+        MemberDTO memberDTO = memberService.findByEmail(email);
+        log.info("remove mid: " + memberDTO.getMid());
+        memberService.remove(memberDTO.getMid());
+        redirectAttributes.addFlashAttribute("msg", memberDTO.getMid());
 
-        return "redirect:/store/list";
+        return "redirect:/logout";
+    }
+
+    @GetMapping("/member/review")
+    public String findByMember(HttpSession session, Model model) {
+        String email = (String) session.getAttribute("email");
+        MemberDTO memberDTO = memberService.findByEmail(email);
+        List<ReviewDTO> result = reviewService.getListOfMember(memberDTO.getMid());
+        model.addAttribute("result", result);
+
+        return "member/review";
     }
 }

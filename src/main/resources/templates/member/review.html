@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<th:block th:replace="~{/layout/basic :: setContent(~{this::content} )}">
+
+    <th:block th:fragment="content">
+        <h1 class="mt-4"><a style="text-decoration: none">내가 작성한 리뷰</a></h1>
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">가게번호</th>
+                <th scope="col">별점</th>
+                <th scope="col">리뷰내용</th>
+                <th scope="col">등록일</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="dto : ${result}">
+                <td>
+                    <a th:href="@{/store/read(sno = ${dto.sno})}">[[${dto.sno}]]</a>
+                </td>
+                <td><b>[[${dto.grade}]]</b></td>
+                <td><b>[[${dto.text}]]</b></td>
+                <td>[[${#temporals.format(dto.regDate, 'yyyy/MM/dd')}]]</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <script th:inline="javascript">
+
+            var searchForm = $("#searchForm");
+            $(".btn-search").click(function(e) {
+                searchForm.submit();
+            });
+
+            $('.btn-clear').click(function(e) {
+                searchForm.empty().submit();
+            });
+        </script>
+
+    </th:block>
+</th:block>

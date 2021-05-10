@@ -1,5 +1,7 @@
 package me.seoop.newgogidang.service;
 
+import me.seoop.newgogidang.dto.PageRequestDTO;
+import me.seoop.newgogidang.dto.PageResultDTO;
 import me.seoop.newgogidang.dto.ReviewDTO;
 import me.seoop.newgogidang.entity.Member;
 import me.seoop.newgogidang.entity.Review;
@@ -13,6 +15,7 @@ public interface ReviewService {
     Long register(ReviewDTO reviewDTO);
     void modify(ReviewDTO storeReviewDTO);
     void remove(Long reviewnum);
+    List<ReviewDTO> getListOfMember(Long mid);
 
     default Review dtoToEntity(ReviewDTO storeReviewDTO) {
         Review storeReview = Review.builder()
