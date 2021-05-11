@@ -25,4 +25,4 @@
 ## 3. 설명
 이 서비스는 축산시장과 사용자를 연결해주는 플랫폼입니다. 
 사용자는 가게를 살펴본 후 원하는 상품을 장바구니에 담고 구매를 하면 되는 쇼핑몰 플랫폼입니다.
-전에 만들었던 프로젝트(https://github.com/A2Gogidang/Gogidang)를 Spring Boot와 Spring Data JPA를 적용하여 다시 만들었습니다.
+전에 만들었던 프로젝트( https://github.com/A2Gogidang/Gogidang )를 Spring Boot와 Spring Data JPA를 적용하여 다시 만들었습니다.
