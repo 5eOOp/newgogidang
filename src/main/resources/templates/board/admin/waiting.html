@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<th:block th:replace="~{/layout/basic :: setContent(~{this::content} )}">
+
+  <th:block th:fragment="content">
+    <h1 class="mt-4"><a style="text-decoration: none">판매자 신청 페이지</a></h1>
+
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">신청자 이메일</th>
+        <th scope="col">신청자 닉네임</th>
+        <th scope="col">신청일</th>
+        <th scope="col">승인여부</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="dto : ${result}">
+        <td><b>[[${dto.srno}]]</b></td>
+        <td><b>[[${dto.member.email}]]</b></td>
+        <td><b>[[${dto.member.nickname}]]</b></td>
+        <td>[[${#temporals.format(dto.regDate, 'yyyy/MM/dd')}]]</td>
+        <td>
+          <a th:href="@{/admin/permit(srno = ${dto.srno})}">
+            <button type="button" class="btn btn-primary">승인</button>
+          </a>
+
+          <a th:href="@{/admin/refuse(srno = ${dto.srno})}">
+            <button type="button" class="btn btn-danger">거절</button>
+          </a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </th:block>
+</th:block>

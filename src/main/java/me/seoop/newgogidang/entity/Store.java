@@ -19,6 +19,9 @@ public class Store extends BaseEntity {
     private String address;
     private String phone;
 
+    @OneToOne(mappedBy = "store")
+    private Member member;
+
     public void changeTitle(String title) {
         this.title = title;
     }

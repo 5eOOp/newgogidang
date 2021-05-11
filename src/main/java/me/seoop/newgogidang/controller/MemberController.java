@@ -7,6 +7,7 @@ import me.seoop.newgogidang.dto.ReviewDTO;
 import me.seoop.newgogidang.entity.Member;
 import me.seoop.newgogidang.service.MemberService;
 import me.seoop.newgogidang.service.ReviewService;
+import me.seoop.newgogidang.service.SellerRequestService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,6 +32,7 @@ public class MemberController {
     private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
     private final ReviewService reviewService;
+    private final SellerRequestService sellerRequestService;
 
     @GetMapping("/")
     public String home() {
@@ -89,12 +91,16 @@ public class MemberController {
 
     @GetMapping("/member/read")
     public String getMember(HttpSession session, Model model) {
-        String email = (String) session.getAttribute("email");
-        log.info("email: " + email);
-        MemberDTO memberDTO = memberService.findByEmail(email);
-        model.addAttribute("dto", memberDTO);
+        try {
+            String email = (String) session.getAttribute("email");
+            log.info("email: " + email);
+            MemberDTO memberDTO = memberService.findByEmail(email);
+            model.addAttribute("dto", memberDTO);
 
-        return "member/read";
+            return "member/read";
+        } catch (Exception e) {
+            return "redirect:/login";
+        }
     }
 
     @GetMapping("/member/modify")
@@ -115,7 +121,7 @@ public class MemberController {
         return "redirect:/member/read";
     }
 
-    @GetMapping("/member/remove")
+    @PostMapping("/member/remove")
     public String remove(HttpSession session, RedirectAttributes redirectAttributes) {
         String email = (String) session.getAttribute("email");
         MemberDTO memberDTO = memberService.findByEmail(email);
@@ -127,12 +133,26 @@ public class MemberController {
     }
 
     @GetMapping("/member/review")
-    public String findByMember(HttpSession session, Model model) {
+    public String memberReview(HttpSession session, Model model) {
+        try {
+            String email = (String) session.getAttribute("email");
+            MemberDTO memberDTO = memberService.findByEmail(email);
+            List<ReviewDTO> result = reviewService.getListOfMember(memberDTO.getMid());
+            model.addAttribute("result", result);
+
+            return "member/review";
+        } catch (Exception e) {
+            return "redirect:/login";
+        }
+    }
+
+    @GetMapping("/member/seller")
+    public String sellerRequest(HttpSession session) {
         String email = (String) session.getAttribute("email");
         MemberDTO memberDTO = memberService.findByEmail(email);
-        List<ReviewDTO> result = reviewService.getListOfMember(memberDTO.getMid());
-        model.addAttribute("result", result);
+        log.info("memberDTO: " + memberDTO);
+        sellerRequestService.addSeller(memberDTO);
 
-        return "member/review";
+        return "redirect:/store/list";
     }
 }

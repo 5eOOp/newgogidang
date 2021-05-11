@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.seoop.newgogidang.dto.MemberDTO;
 import me.seoop.newgogidang.entity.Member;
+import me.seoop.newgogidang.entity.MemberRole;
 import me.seoop.newgogidang.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,7 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public Long register(MemberDTO memberDTO) {
         Member member = dtoToEntity(memberDTO);
+        member.addMemberRole(MemberRole.USER);
         memberRepository.save(member);
         return member.getMid();
     }
@@ -42,7 +44,6 @@ public class MemberServiceImpl implements MemberService{
         Optional<Member> result = memberRepository.findById(memberDTO.getMid());
         if (result.isPresent()) {
             Member member = result.get();
-            member.changePw(memberDTO.getPw());
             member.changeNickname(memberDTO.getNickname());
             memberRepository.save(member);
         }

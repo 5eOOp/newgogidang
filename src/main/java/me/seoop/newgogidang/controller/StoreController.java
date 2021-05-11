@@ -2,9 +2,11 @@ package me.seoop.newgogidang.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.seoop.newgogidang.dto.MemberDTO;
 import me.seoop.newgogidang.dto.PageRequestDTO;
 import me.seoop.newgogidang.dto.PageResultDTO;
 import me.seoop.newgogidang.dto.StoreDTO;
+import me.seoop.newgogidang.service.MemberService;
 import me.seoop.newgogidang.service.StoreItemService;
 import me.seoop.newgogidang.service.StoreService;
 import org.springframework.http.HttpStatus;
@@ -14,6 +16,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequiredArgsConstructor
 @Slf4j
@@ -22,6 +26,7 @@ public class StoreController {
 
     private final StoreService storeService;
     private final StoreItemService storeItemService;
+    private final MemberService memberService;
 
     @GetMapping("/register")
     public String register() {
@@ -29,11 +34,18 @@ public class StoreController {
     }
 
     @PostMapping("/register")
-    public String registerPost(StoreDTO storeDTO, RedirectAttributes redirectAttributes) {
+    public String registerPost(StoreDTO storeDTO, RedirectAttributes redirectAttributes, HttpSession session) {
+        String email = (String) session.getAttribute("email");
+        log.info("email: " + email);
+        Long mid = memberService.findByEmail(email).getMid();
         log.info("storeDTO: " + storeDTO);
-        Long sno = storeService.register(storeDTO);
-        redirectAttributes.addFlashAttribute("msg", sno);
-        return "redirect:/store/list";
+        try {
+            Long sno = storeService.register(storeDTO, mid);
+            redirectAttributes.addFlashAttribute("msg", sno);
+            return "redirect:/store/list";
+        } catch (Exception e) {
+            return "redirect:/register";
+        }
     }
 
     @GetMapping("/list")
@@ -70,6 +82,22 @@ public class StoreController {
 
     @GetMapping("/read")
     public String read(long sno, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, Model model) {
+        log.info("sno: " + sno);
+        int count = storeItemService.count(sno);
+        log.info("count: " + count);
+        if (count != 0) {
+            StoreDTO storeDTO = storeService.getStore(sno);
+            model.addAttribute("dto", storeDTO);
+            return "store/read";
+        } else {
+            StoreDTO storeDTO = storeService.getStoreFirst(sno);
+            model.addAttribute("dto", storeDTO);
+            return "store/read";
+        }
+    }
+
+    @GetMapping("/mystore")
+    public String readMyStore(long sno, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, Model model) {
         log.info("sno: " + sno);
         int count = storeItemService.count(sno);
         log.info("count: " + count);

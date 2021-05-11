@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 public interface StoreService {
 
-    Long register(StoreDTO storeDTO);
+    Long register(StoreDTO storeDTO, Long mid);
     PageResultDTO<StoreDTO, Object[]> getList(PageRequestDTO requestDTO);
     PageResultDTO<StoreDTO, Store> getSearchList(PageRequestDTO requestDTO);
     PageResultDTO<StoreDTO, Object[]> getListPageWithAvgDesc(PageRequestDTO requestDTO);

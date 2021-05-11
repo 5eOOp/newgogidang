@@ -23,6 +23,10 @@ public class Member extends BaseEntity {
     private String nickname;
     private boolean fromSocial;
 
+    @OneToOne
+    @JoinColumn(name = "store_sno")
+    private Store store;
+
     @ElementCollection(fetch = FetchType.LAZY)
     @Builder.Default
     private Set<MemberRole> roleSet = new HashSet<>();
@@ -37,5 +41,9 @@ public class Member extends BaseEntity {
 
     public void changeNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
     }
 }

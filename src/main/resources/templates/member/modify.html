@@ -21,23 +21,8 @@
       </div>
 
       <div class="form-group">
-        <label >회원 비밀번호</label>
-        <input type="password" class="form-control" name="pw" th:value="${dto.pw}" >
-      </div>
-
-      <div class="form-group">
         <label >닉네임</label>
         <input type="text" class="form-control" name="nickname" th:value="${dto.nickname}" >
-      </div>
-
-      <div class="form-group">
-        <label >가입일</label>
-        <input type="text" class="form-control" name="regDate" th:value="${#temporals.format(dto.regDate, 'yyyy/MM/dd HH:mm:ss')}" readonly>
-      </div>
-
-      <div class="form-group">
-        <label >최근 수정일</label>
-        <input type="text" class="form-control" name="modDate" th:value="${#temporals.format(dto.modDate, 'yyyy/MM/dd HH:mm:ss')}" readonly>
       </div>
 
     </form>
@@ -58,7 +43,7 @@
 
         actionForm
                 .attr("action", "/member/remove")
-                .attr("method","get")
+                .attr("method","post")
                 .submit();
       });
 

@@ -9,6 +9,7 @@ import me.seoop.newgogidang.dto.PageRequestDTO;
 import me.seoop.newgogidang.dto.PageResultDTO;
 import me.seoop.newgogidang.dto.StoreDTO;
 import me.seoop.newgogidang.entity.*;
+import me.seoop.newgogidang.repository.MemberRepository;
 import me.seoop.newgogidang.repository.StoreImgRepository;
 import me.seoop.newgogidang.repository.StoreItemRepository;
 import me.seoop.newgogidang.repository.StoreRepository;
@@ -29,14 +30,22 @@ public class StoreServiceImpl implements StoreService {
     private final StoreRepository storeRepository;
     private final StoreItemRepository storeItemRepository;
     private final StoreImgRepository storeImgRepository;
+    private final MemberRepository memberRepository;
 
     @Transactional
     @Override
-    public Long register(StoreDTO storeDTO) {
+    public Long register(StoreDTO storeDTO, Long mid) {
         Map<String, Object> entityMap = dtoToEntity(storeDTO);
+        Optional<Member> result = memberRepository.findById(mid);
 
         Store store = (Store) entityMap.get("store");
         storeRepository.save(store);
+
+        if (result.isPresent()) {
+            Member member = result.get();
+            member.setStore(store);
+            memberRepository.save(member);
+        }
 
         List<StoreImg> imgList = (List<StoreImg>) entityMap.get("imgList");
         imgList.forEach(img -> {

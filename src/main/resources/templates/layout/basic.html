@@ -42,7 +42,7 @@
             <a th:href="@{/event/list}" class="list-group-item list-group-item-action bg-light">이벤트</a>
             <a th:href="@{/qna/list}" class="list-group-item list-group-item-action bg-light">Qna</a>
             <a th:href="@{/notice/list}" class="list-group-item list-group-item-action bg-light">공지사항</a>
-            <a href="#" class="list-group-item list-group-item-action bg-light">제작자</a>
+<!--            <a href="https://seoop.oopy.io/588cce68-c749-43ff-aacb-8503eaa4c320" class="list-group-item list-group-item-action bg-light">제작자</a>-->
         </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -72,13 +72,14 @@
                         <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/logout}">logout</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" sec:authorize="isAuthenticated()" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             마이페이지
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" th:href="@{/member/read}">내정보</a>
                             <a class="dropdown-item" th:href="@{/member/review}">내가쓴리뷰</a>
                             <a sec:authorize="hasRole('ROLE_SELLER')" class="dropdown-item" href="#">내가게</a>
+                            <a sec:authorize="hasRole('ROLE_ADMIN')" class="dropdown-item" th:href="@{/admin/sellerRequestList}">승인대기중인 판매자</a>
                         </div>
                     </li>
                 </ul>
