@@ -46,4 +46,9 @@ public class StoreItemServiceImpl implements StoreItemService{
         int count = storeItemRepository.countBySno(sno);
         return count;
     }
+
+    @Override
+    public void deleteItem(Long inum) {
+        storeItemRepository.deleteById(inum);
+    }
 }

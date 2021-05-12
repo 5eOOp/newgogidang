@@ -15,6 +15,7 @@ import java.net.URLEncoder;
 public class StoreItemDTO {
 
     private Long sno;
+    private Long inum;
 
     private String uuid;
     private String imgName;

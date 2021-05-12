@@ -1,9 +1,7 @@
 package me.seoop.newgogidang.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import me.seoop.newgogidang.entity.Store;
 
 import java.time.LocalDateTime;
 

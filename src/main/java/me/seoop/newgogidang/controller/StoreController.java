@@ -6,6 +6,7 @@ import me.seoop.newgogidang.dto.MemberDTO;
 import me.seoop.newgogidang.dto.PageRequestDTO;
 import me.seoop.newgogidang.dto.PageResultDTO;
 import me.seoop.newgogidang.dto.StoreDTO;
+import me.seoop.newgogidang.entity.Store;
 import me.seoop.newgogidang.service.MemberService;
 import me.seoop.newgogidang.service.StoreItemService;
 import me.seoop.newgogidang.service.StoreService;
@@ -97,18 +98,20 @@ public class StoreController {
     }
 
     @GetMapping("/mystore")
-    public String readMyStore(long sno, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, Model model) {
-        log.info("sno: " + sno);
-        int count = storeItemService.count(sno);
+    public String readMyStore(HttpSession session, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, Model model) {
+        String email = (String) session.getAttribute("email");
+        Store store = memberService.findStoreByEmail(email);
+        log.info("store: " + store);
+        int count = storeItemService.count(store.getSno());
         log.info("count: " + count);
         if (count != 0) {
-            StoreDTO storeDTO = storeService.getStore(sno);
+            StoreDTO storeDTO = storeService.getStore(store.getSno());
             model.addAttribute("dto", storeDTO);
-            return "store/read";
+            return "store/mystore";
         } else {
-            StoreDTO storeDTO = storeService.getStoreFirst(sno);
+            StoreDTO storeDTO = storeService.getStoreFirst(store.getSno());
             model.addAttribute("dto", storeDTO);
-            return "store/read";
+            return "store/mystore";
         }
     }
 

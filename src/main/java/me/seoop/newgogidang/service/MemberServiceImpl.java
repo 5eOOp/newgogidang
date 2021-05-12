@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import me.seoop.newgogidang.dto.MemberDTO;
 import me.seoop.newgogidang.entity.Member;
 import me.seoop.newgogidang.entity.MemberRole;
+import me.seoop.newgogidang.entity.Store;
 import me.seoop.newgogidang.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 
@@ -59,6 +60,13 @@ public class MemberServiceImpl implements MemberService{
         Member member = memberRepository.findByEmail(email);
         MemberDTO memberDTO = entityToDTO(member);
         return memberDTO;
+    }
+
+    @Override
+    public Store findStoreByEmail(String email) {
+        Member result = memberRepository.findByEmail(email);
+        Store store = result.getStore();
+        return store;
     }
 
 }

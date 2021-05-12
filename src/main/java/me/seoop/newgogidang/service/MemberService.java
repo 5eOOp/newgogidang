@@ -3,6 +3,7 @@ package me.seoop.newgogidang.service;
 import com.sun.javadoc.MemberDoc;
 import me.seoop.newgogidang.dto.MemberDTO;
 import me.seoop.newgogidang.entity.Member;
+import me.seoop.newgogidang.entity.Store;
 
 public interface MemberService {
 
@@ -12,6 +13,7 @@ public interface MemberService {
     void modify(MemberDTO memberDTO);
     void remove(Long mid);
     MemberDTO findByEmail(String email);
+    Store findStoreByEmail(String email);
 
 
     default Member dtoToEntity(MemberDTO memberDTO) {

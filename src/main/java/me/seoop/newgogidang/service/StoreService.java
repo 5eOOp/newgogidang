@@ -45,6 +45,7 @@ public interface StoreService {
 
         List<StoreItemDTO> storeItemDTOList = storeItems.stream().map(storeItem -> {
             return StoreItemDTO.builder()
+                    .inum(storeItem.getInum())
                     .imgName(storeItem.getImgName())
                     .path(storeItem.getPath())
                     .uuid(storeItem.getUuid())

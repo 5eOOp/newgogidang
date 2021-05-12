@@ -8,10 +8,7 @@ import me.seoop.newgogidang.service.StoreService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -27,5 +24,12 @@ public class StoreItemController {
         log.info("storeItemDTO: " + storeItemDTO);
         Long result = storeItemService.register(storeItemDTO);
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/deleteItem")
+    public String deleteItem(Long inum) {
+        log.info("inum: " + inum);
+        storeItemService.deleteItem(inum);
+        return "redirect:/store/mystore";
     }
 }
