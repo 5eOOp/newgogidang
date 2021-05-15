@@ -1,6 +1,7 @@
 package me.seoop.newgogidang.entity;
 
 import lombok.*;
+import me.seoop.newgogidang.exception.NotEnoughStockException;
 
 import javax.persistence.*;
 
@@ -20,8 +21,9 @@ public class StoreItem {
     private String path;
 
     private String itemName;
-    private String itemPrice;
+    private int itemPrice;
     private String itemGrade;
+    private int stockQuantity;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Store store;
@@ -30,11 +32,23 @@ public class StoreItem {
         this.itemName = itemName;
     }
 
-    public void changeItemPrice(String itemPrice) {
+    public void changeItemPrice(int itemPrice) {
         this.itemPrice = itemPrice;
     }
 
     public void changeItemGrade(String itemGrade) {
         this.itemGrade = itemGrade;
+    }
+
+    public void addStockQuantity(int quantity) {
+        this.stockQuantity += quantity;
+    }
+
+    public void removeStockQuantity(int quantity) {
+        int restStock = this.stockQuantity - quantity;
+        if (restStock < 0) {
+            throw new NotEnoughStockException("need more stock");
+        }
+        this.stockQuantity = restStock;
     }
 }

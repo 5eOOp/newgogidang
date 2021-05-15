@@ -3,7 +3,9 @@ package me.seoop.newgogidang.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -28,8 +30,12 @@ public class Member extends BaseEntity {
     private Store store;
 
     @ElementCollection(fetch = FetchType.LAZY)
+    @Enumerated(EnumType.STRING)
     @Builder.Default
     private Set<MemberRole> roleSet = new HashSet<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Order> orders = new ArrayList<>();
 
     public void addMemberRole(MemberRole memberRole) {
         roleSet.add(memberRole);

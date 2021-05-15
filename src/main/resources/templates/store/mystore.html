@@ -63,14 +63,6 @@
       }
     </style>
 
-    <!--    <div class="uploadResult">-->
-    <!--      <ul >-->
-    <!--        <li th:each="storeImg: ${dto.imgDTOList}" th:data-file="${storeImg.getThumbnailURL()}">-->
-    <!--          <img  th:if="${storeImg.path != null}" th:src="|/display?fileName=${storeImg.getThumbnailURL()}|">-->
-    <!--        </li>-->
-    <!--      </ul>-->
-    <!--    </div>-->
-
     <table class="table table-striped">
       <thead>
       <tr>
@@ -78,7 +70,7 @@
         <th scope="col">메뉴 이름</th>
         <th scope="col">메뉴 등급</th>
         <th scope="col">메뉴 가격</th>
-        <th scope="col">메뉴 수정/삭제</th>
+        <th scope="col">메뉴 삭제</th>
       </tr>
       </thead>
       <tbody>
@@ -88,8 +80,6 @@
         <td><b>[[${storeItem.itemGrade}]]</b></td>
         <td><b>[[${storeItem.itemPrice}]]</b></td>
         <td>
-          <button type="button" class="btn btn-primary modifyItemBtn">수정</button>
-
           <a th:href="@{/item/deleteItem(inum = ${storeItem.inum})}">
             <button type="button" class="btn btn-danger">삭제</button>
           </a>
@@ -102,52 +92,8 @@
       리뷰 갯수 <span class="badge badge-light">[[${dto.reviewCnt}]]</span>
     </button>
 
-    <button type="button" class="btn btn-info addReviewBtn">
-      리뷰 등록
-    </button>
-
     <div class="list-group reviewList">
 
-    </div>
-
-    <!-- 리뷰 등록/수정 모달 -->
-    <div class="reviewModal modal" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-
-          <div class="modal-header">
-            <h5 class="modal-title">가게 리뷰</h5>
-
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-
-          <div class="modal-body">
-            <div class="form-group">
-              <label >고객 ID</label>
-              <input type="text" class="form-control" name="mid">
-            </div>
-
-            <div class="form-group">
-              <label >별점 <span class="grade"></span></label>
-              <div class='starrr'></div>
-            </div>
-
-            <div class="form-group">
-              <label >리뷰 내용</label>
-              <input type="text" class="form-control" name="text" placeholder="맛있습니다!" >
-            </div>
-          </div>
-
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-            <button type="button" class="btn btn-primary reviewSaveBtn">저장 </button>
-            <button type="button" class="btn btn-warning modifyBtn">수정 </button>
-            <button type="button" class="btn btn-danger removeBtn">제거 </button>
-          </div>
-        </div>
-      </div>
     </div>
 
     <!-- 가게 수정 모달 -->
@@ -193,7 +139,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">메뉴 등록/수정</h5>
+            <h5 class="modal-title">메뉴 등록</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -264,7 +210,6 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
             <button type="button" class="btn btn-primary storeItemSave">등록 </button>
-            <button type="button" class="btn btn-primary storeItemModify">수정 </button>
           </div>
         </div>
       </div>
@@ -465,15 +410,6 @@
         var path;
 
         $(".addItemBtn").click(function () {
-          $(".storeItemSave").show();
-          $(".storeItemModify").hide();
-          storeItemModal.modal('show');
-        });
-
-        $(".modifyItemBtn").click(function () {
-          $(".storeItemSave").hide();
-          $(".storeItemModify").show();
-
           storeItemModal.modal('show');
         });
 
