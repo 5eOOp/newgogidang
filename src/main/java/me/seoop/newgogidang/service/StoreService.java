@@ -52,6 +52,7 @@ public interface StoreService {
                     .itemName(storeItem.getItemName())
                     .itemPrice(storeItem.getItemPrice())
                     .itemGrade(storeItem.getItemGrade())
+                    .stockQuantity(storeItem.getStockQuantity())
                     .build();
         }).collect(Collectors.toList());
 

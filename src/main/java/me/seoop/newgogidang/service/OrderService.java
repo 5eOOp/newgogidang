@@ -6,6 +6,6 @@ import me.seoop.newgogidang.entity.OrderItem;
 
 public interface OrderService {
 
-    Long register(Member member, OrderItem... orderItems);
+    Long register(String email, Long inum, int count);
     void cancel(Long ono);
 }

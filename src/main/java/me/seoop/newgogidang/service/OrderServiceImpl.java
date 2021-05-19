@@ -2,11 +2,10 @@ package me.seoop.newgogidang.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.seoop.newgogidang.entity.Member;
-import me.seoop.newgogidang.entity.Order;
-import me.seoop.newgogidang.entity.OrderItem;
-import me.seoop.newgogidang.entity.OrderStatus;
+import me.seoop.newgogidang.entity.*;
+import me.seoop.newgogidang.repository.MemberRepository;
 import me.seoop.newgogidang.repository.OrderRepository;
+import me.seoop.newgogidang.repository.StoreItemRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,16 +18,19 @@ import java.util.Optional;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
+    private final MemberRepository memberRepository;
+    private final StoreItemRepository storeItemRepository;
 
     @Override
     @Transactional
-    public Long register(Member member, OrderItem... orderItems) {
-        Order order = new Order();
-        order.setMember(member);
-        for (OrderItem orderItem : orderItems) {
-            order.addOrderItem(orderItem);
-        }
-        order.setStatus(OrderStatus.WAITING);
+    public Long register(String email, Long inum, int count) {
+        Member member = memberRepository.findByEmail(email);
+        Optional<StoreItem> item = storeItemRepository.findById(inum);
+        StoreItem storeItem = item.get();
+
+        OrderItem orderItem = OrderItem.createOrderItem(storeItem, storeItem.getItemPrice(), count);
+
+        Order order = Order.createOrder(member, orderItem);
 
         orderRepository.save(order);
         return order.getOno();

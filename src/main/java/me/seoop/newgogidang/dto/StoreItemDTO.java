@@ -22,8 +22,9 @@ public class StoreItemDTO {
     private String path;
 
     private String itemName;
-    private String itemPrice;
+    private int itemPrice;
     private String itemGrade;
+    private int stockQuantity;
 
     public String getImageURL() {
         try {

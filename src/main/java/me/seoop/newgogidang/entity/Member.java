@@ -13,7 +13,6 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@ToString
 @Table(name = "m_member")
 public class Member extends BaseEntity {
 

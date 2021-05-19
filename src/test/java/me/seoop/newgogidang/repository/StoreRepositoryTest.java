@@ -60,7 +60,8 @@ class StoreRepositoryTest {
                         .imgName("test" + j + ".jpg")
                         .itemName("test..." + i + "item")
                         .itemGrade(i + "등급")
-                        .itemPrice(i + "000원")
+                        .itemPrice(1000)
+                        .stockQuantity(10)
                         .build();
 
                 storeItemRepository.save(storeItem);
