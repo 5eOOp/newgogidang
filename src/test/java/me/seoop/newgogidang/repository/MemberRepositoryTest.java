@@ -62,22 +62,22 @@ class MemberRepositoryTest {
         });
     }
 
-    @Test
-    public void testRead() throws Exception {
-        Optional<Member> result = memberRepository.findByEmail("user95@aaa.com", false);
-        Member member = result.get();
-        System.out.println(member);
-    }
-
-    @Commit
-    @Transactional
-    @Test
-    public void testDeleteMember() throws Exception {
-        Long mid = 1L;
-        Member member = Member.builder().mid(mid).build();
-
-        reviewRepository.deleteByMember(member);
-        memberRepository.deleteById(mid);
-    }
+//    @Test
+//    public void testRead() throws Exception {
+//        Optional<Member> result = memberRepository.findByEmail("user95@aaa.com", false);
+//        Member member = result.get();
+//        System.out.println(member);
+//    }
+//
+//    @Commit
+//    @Transactional
+//    @Test
+//    public void testDeleteMember() throws Exception {
+//        Long mid = 1L;
+//        Member member = Member.builder().mid(mid).build();
+//
+//        reviewRepository.deleteByMember(member);
+//        memberRepository.deleteById(mid);
+//    }
 
 }

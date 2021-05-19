@@ -18,25 +18,25 @@ class ReviewRepositoryTest {
     @Autowired
     private ReviewRepository reviewRepository;
 
-    @Test
-    public void insertStoreReview() throws Exception {
-        IntStream.rangeClosed(1, 200).forEach(i -> {
-            Long sno = (long) (Math.random()*100) + 1;
-            Store store = Store.builder().sno(sno).build();
-
-            Long mid = (long) (Math.random()*100) + 1;
-            Member member = Member.builder().mid(mid).build();
-
-            Review review = Review.builder()
-                    .member(member)
-                    .store(store)
-                    .grade((int)(Math.random()*5) + 1)
-                    .text("이 음식점 평가..." + i)
-                    .build();
-
-            reviewRepository.save(review);
-        });
-    }
+//    @Test
+//    public void insertStoreReview() throws Exception {
+//        IntStream.rangeClosed(1, 200).forEach(i -> {
+//            Long sno = (long) (Math.random()*100) + 1;
+//            Store store = Store.builder().sno(sno).build();
+//
+//            Long mid = (long) (Math.random()*100) + 1;
+//            Member member = Member.builder().mid(mid).build();
+//
+//            Review review = Review.builder()
+//                    .member(member)
+//                    .store(store)
+//                    .grade((int)(Math.random()*5) + 1)
+//                    .text("이 음식점 평가..." + i)
+//                    .build();
+//
+//            reviewRepository.save(review);
+//        });
+//    }
 
     @Test
     public void testGetStoreReview() throws Exception {
